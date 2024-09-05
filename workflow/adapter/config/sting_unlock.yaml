@@ -1,0 +1,23 @@
+## parameters
+batch_num: 
+bilan_table:   
+dataset_table: 
+
+## standard outputs
+bilan_rebuild: config/bilan.xlsx
+rebuild_dataset_table: config/dataset.csv
+variant_call_table: config/variant_call_list_TvN.tsv
+rna_samplesheet: config/samplesheet.csv
+
+general:
+  agg_sample: config/clinic.tsv
+  dna_samples: config/dna_samples.tsv
+  rna_samples: config/rna_samples.tsv
+  tumor_normal_pairs: config/tumor_normal_pairs.tsv
+
+## dependancy
+params:
+  civic:
+    corr_table: workflow/resources/Table_Correspondence_Tumor_Type.tsv
+
+
