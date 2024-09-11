@@ -119,13 +119,16 @@ def check_bilan_table(bilan_df):
     def _check_histo_match_tissue_type():
         tt_cln = '*Tissue Type \n(eg: Root, Blood. Germ source.)'
         histo_cln = 'n°Histo'
+
+        invalid_blood_set = set(bilan_df[bilan_df[tt_cln] == 'Cell blood'][histo_cln])
+        invalid_tumor_set = set(bilan_df[bilan_df[histo_cln] != 'Blood'][tt_cln])
         
-        if len(set(bilan_df[bilan_df[tt_cln] == 'Cell blood'][histo_cln])) > 1:
-            logging.error(f"Some tissue type of Cell blood doesn't match to histo Blood")
+        if len(invalid_blood_set) > 1:
+            logging.error(f"Some tissue type of Cell blood doesn't match to histo Blood: {invalid_blood_set}")
             _not_valid()
 
-        if len(set(bilan_df[bilan_df[histo_cln] != 'Blood'][tt_cln])) > 1:
-            logging.error(f"Some histo tumor doesn't match to tissue type of tumor")
+        if len(invalid_tumor_set) > 1:
+            logging.error(f"Some histo tumor doesn't match to tissue type of tumor: {invalid_tumor_set}")
             _not_valid()
         
     # _check_sample_name()
@@ -152,6 +155,7 @@ def update_sample_name_alias(bilan_df):
     bilan_df['Alias:NOIGR']  = bilan_df['NIP'].map(lambda x: x.strip().replace('-','').replace(' ', ''))
     bilan_df['Tissue Alias'] = bilan_df['*Tissue Type \n(eg: Root, Blood. Germ source.)'].map(lambda x: 'T' if x == 'Tumor' else 'N')
     bilan_df['Nucleic Acid Type Alias'] = bilan_df['*Nucleic Acid Type'].map(lambda x: x.split(' ')[-1])
+    bilan_df['DATE BIOPSIE'] = pd.to_datetime(bilan_df['DATE BIOPSIE'], errors='coerce')
     
     bilan_df['Resent'] = 0
     bilan_df['Biopsy_Num'] = 0
@@ -219,9 +223,9 @@ def main(input, output, params):
         bilan_df['irods_sampleId']     = float('nan')
         
     # check if the table meet the convention or has any error
-    logging.info("Starting to check the table : {input.bilan}")
+    logging.info(f"Starting to check the table : {input.bilan}")
     check_bilan_table(bilan_df)
-    logging.info("{input.bilan} is checked. Everything is fine.")
+    logging.info(f"{input.bilan} is checked. Everything is fine.")
 
     # update '*Biopsy ID', '*Sample \nName' and 'Sample Name Alias'
     logging.info("building new columns of Sample Name Alias")

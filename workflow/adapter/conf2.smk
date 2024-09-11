@@ -15,7 +15,7 @@ rule build_aggregate_sample_table:
         queue = "shortq",
         mem_mb= 4096,
     # conda: "/mnt/beegfs/userdata/j_wang/.conda/envs/python3"
-    shell: "module load python ; python3.9 workflow/rules/Clinic/config/scripts/build_aggregate_sample_table.py --bilan {input.bilan} --sheet {input.sheet} --variant {input.variant} --sample_table {output.sample_table} --batch {params.batch} --corr_table {params.corr_table} --out {log.out} "
+    shell: "module load python ; python3.9 workflow/adapter/scripts/build_aggregate_sample_table.py --bilan {input.bilan} --sheet {input.sheet} --variant {input.variant} --sample_table {output.sample_table} --batch {params.batch} --corr_table {params.corr_table} --out {log.out} "
 
 rule build_tumor_normal_pairs:
     input:
@@ -33,7 +33,7 @@ rule build_tumor_normal_pairs:
         queue = "shortq",
         mem_mb= 4096,
     # conda: "/mnt/beegfs/userdata/j_wang/.conda/envs/python3"
-    shell: "module load python ; python3.9 workflow/rules/Clinic/config/scripts/build_tumor_normal_pairs.py --bilan {input.bilan} --variant {input.variant} --sample_table {output.sample_table} --batch {params.batch} --corr_table {params.corr_table} --out {log.out} "
+    shell: "module load python ; python3.9 workflow/adapter/scripts/build_tumor_normal_pairs.py --bilan {input.bilan} --variant {input.variant} --sample_table {output.sample_table} --batch {params.batch} --corr_table {params.corr_table} --out {log.out} "
 
 rule build_dna_samples_table:
     input:
@@ -51,7 +51,7 @@ rule build_dna_samples_table:
         queue = "shortq",
         mem_mb= 4096,
     # conda: "/mnt/beegfs/userdata/j_wang/.conda/envs/python3"
-    shell: "module load python ; python3.9 workflow/rules/Clinic/config/scripts/build_dna_samples_table.py --bilan {input.bilan} --variant {input.variant} --sample_table {output.sample_table} --batch {params.batch} --corr_table {params.corr_table} --out {log.out} "
+    shell: "module load python ; python3.9 workflow/adapter/scripts/build_dna_samples_table.py --bilan {input.bilan} --variant {input.variant} --sample_table {output.sample_table} --batch {params.batch} --corr_table {params.corr_table} --out {log.out} "
 
 rule build_rna_samples_table:
     input:
@@ -69,4 +69,4 @@ rule build_rna_samples_table:
         queue = "shortq",
         mem_mb= 4096,
     # conda: "/mnt/beegfs/userdata/j_wang/.conda/envs/python3"
-    shell: "module load python ; python3.9 workflow/rules/Clinic/config/scripts/build_rna_samples_table.py --bilan {input.bilan} --sheet {input.sheet} --sample_table {output.sample_table} --batch {params.batch} --corr_table {params.corr_table} --out {log.out} "
+    shell: "module load python ; python3.9 workflow/adapter/scripts/build_rna_samples_table.py --bilan {input.bilan} --sheet {input.sheet} --sample_table {output.sample_table} --batch {params.batch} --corr_table {params.corr_table} --out {log.out} "
